@@ -1,0 +1,12 @@
+<td>
+<div class="media">
+  <img src="http://www.gravatar.com/avatar/<%= md5(email) %>" class="pull-left img-polaroid"/>
+  <div class="media-body">
+    <%= name %><br /><%= email %>
+  </div>
+</div>
+</td>
+<td>$<%= budget %></td>
+
+<td><a href="#/<%= id %>/edit" class="btn-small btn-info">Edit</td>
+<td><a href="#/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a></td>

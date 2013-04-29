@@ -44,38 +44,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Bidsystem</a>
-          <div class="container-fluid nav-collapse">
-            <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+          <a class="brand" href="/">Bidsystem</a>
         </div>
       </div>
     </div>
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-          <%= bootstrap_flash %>
-          <%= yield %>
-        </div>
+        <%= yield %>
       </div><!--/row-->
 
-      <footer>
-        <p>&copy; Company 2013</p>
+      <footer style="padding: 20px;">
+        <p class="muted">Created by <a href="http://github.com/acadavid">@acadavid</a></p>
       </footer>
 
     </div> <!-- /container -->
@@ -85,5 +65,11 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
 
+    <script type="text/javascript">
+      $(document).ready(function() {
+        window.router = new Bidsystem.Routers.UsersRouter({users: <%= @users.to_json.html_safe -%>});
+        Backbone.history.start();
+      });
+    </script>
   </body>
 </html>
