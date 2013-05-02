@@ -5,6 +5,7 @@ class Bidsystem.Views.Auctions.AuctionView extends Backbone.View
 
   events:
     "click .destroy" : "destroy"
+    "click .bid" : "bid"
 
   tagName: "tr"
 
@@ -13,6 +14,31 @@ class Bidsystem.Views.Auctions.AuctionView extends Backbone.View
     this.remove()
 
     return false
+
+  bid: () ->
+    Bid = Backbone.Model.extend
+      paramRoot: 'bid'
+
+    Bids = Backbone.Collection.extend
+      model: Bid
+      url: "/bids"
+
+    bids = new Bids
+    bids.create({user_id: window.Bidsystem.ActiveUser.id, auction_id: @model.id, amount: this.$(".amount").val()},
+      success: (bid) =>
+        window.users.fetch(reset: true)
+        self = @
+        @model.fetch(
+          success: ->
+             self.render()
+        )
+
+      error: (user, jqXHR) =>
+        errors_json = $.parseJSON(jqXHR.responseText)
+        alert(errors_json.errors)
+    )
+
+    return true
 
   render: ->
     $(@el).html(@template(@model.toJSON() ))

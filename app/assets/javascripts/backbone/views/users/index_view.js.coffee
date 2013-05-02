@@ -4,7 +4,7 @@ class Bidsystem.Views.Users.IndexView extends Backbone.View
   template: JST["backbone/templates/users/index"]
 
   initialize: () ->
-    @options.users.bind('reset', @addAll)
+    @options.users.bind('reset', @render)
 
   addAll: () =>
     @options.users.each(@addOne)

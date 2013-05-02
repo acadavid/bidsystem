@@ -10,7 +10,8 @@ class Auction < ActiveRecord::Base
   has_many :bidders, through: :bids, source: :user
   belongs_to :highest_bid, class_name: "Bid", foreign_key: "highest_bid_id"
 
-  delegate :name, to: :user, :prefix => :auctioner
+  delegate :name, to: :user, prefix: :auctioner
+  delegate :name, to: :winning_bidder, prefix: :winning_bidder, allow_nil: true
 
   def is_bid_amount_invalid?(amount)
     current_price > amount
@@ -18,6 +19,11 @@ class Auction < ActiveRecord::Base
 
   def closed?
     !active
+  end
+
+  def winning_bidder
+    return nil if highest_bid.nil?
+    highest_bid.user
   end
 
   def create_bid(amount, user)

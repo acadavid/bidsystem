@@ -1,3 +1,6 @@
+<% if (typeof(errors) != "undefined") { %>
+  <div class="alert alert-error"><%= errors %></div>
+<% } %>
 <td>
 <% if (active) { %>
    <span class="label label-success">Active</span>
@@ -5,8 +8,23 @@
    <span class="label label-important">Finished</span>
 <% } %>
 <%= item_name %><br />
+<strong>Auctioner: </strong><%= auctioner_name %><br />
 <strong>Current price: </strong>$<%= current_price %><br />
-<strong>Auctioner: </strong><%= auctioner_name %>
+<% if (winning_bidder_name) { %>
+  <strong>Current winner: </strong><%= winning_bidder_name %><br />
+<% } %>
 </td>
 
-<td><a href="#/auctions/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a></td>
+<td>
+</td>
+<td>
+<% if (window.Bidsystem.ActiveUser) { %>
+  <div class="input-prepend">
+    <span class="add-on">$</span>
+    <input type="text" name="amount" placeholder="amount" class="input-mini amount" style="padding-right:3px;" required>  
+    <a href="#/auctions/<%= id %>/bid" class="btn btn-primary bid">Bid!</a>
+  </div>
+<% } %>
+
+  <a href="#/auctions/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a>
+</td>

@@ -1,9 +1,7 @@
 class Bidsystem.Routers.BidsystemRouter extends Backbone.Router
   initialize: (options) ->
-    @users = new Bidsystem.Collections.UsersCollection()
-    @auctions = new Bidsystem.Collections.AuctionsCollection()
-    @users.reset options.users
-    @auctions.reset options.auctions
+    @users = options.users
+    @auctions = options.auctions
 
   routes:
     "users/new"      : "newUser"
@@ -45,4 +43,3 @@ class Bidsystem.Routers.BidsystemRouter extends Backbone.Router
     @auctions_view = new Bidsystem.Views.Auctions.IndexView(auctions: @auctions)
     $("#auctions").html(@auctions_view.render().el)
     $("#users").html(@users_view.render().el)
-

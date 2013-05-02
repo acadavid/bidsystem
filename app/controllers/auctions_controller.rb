@@ -4,11 +4,16 @@ class AuctionsController < ApplicationController
 
   before_filter :get_user, only: :create
 
+  def show
+    @auction = Auction.find(params[:id])
+    render json: @auction.to_json({methods: [:auctioner_name, :winning_bidder_name]})
+  end
+
   def create
     @auction = @user.auctions.build(params[:auction])
 
     if @auction.save
-      render json: @auction.to_json({methods: [:auctioner_name]}), status: :created
+      render json: @auction.to_json({methods: [:auctioner_name, :winning_bidder_name]}), status: :created
     else
       render json: {errors: @auction.errors.full_messages.join(", ")}, status: :unprocessable_entity
     end
