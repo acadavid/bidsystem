@@ -11,18 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130429233912) do
+ActiveRecord::Schema.define(:version => 20130502044504) do
 
   create_table "auctions", :force => true do |t|
-    t.string   "item_name",                       :null => false
-    t.integer  "current_price",                   :null => false
-    t.boolean  "active",        :default => true, :null => false
+    t.string   "item_name",                        :null => false
+    t.integer  "current_price",                    :null => false
+    t.boolean  "active",         :default => true, :null => false
     t.integer  "user_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.integer  "highest_bid_id"
   end
 
+  add_index "auctions", ["highest_bid_id"], :name => "index_auctions_on_highest_bid_id"
   add_index "auctions", ["user_id"], :name => "index_auctions_on_user_id"
+
+  create_table "bids", :force => true do |t|
+    t.integer  "amount",     :null => false
+    t.integer  "user_id"
+    t.integer  "auction_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "bids", ["auction_id"], :name => "index_bids_on_auction_id"
+  add_index "bids", ["user_id"], :name => "index_bids_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name",       :null => false

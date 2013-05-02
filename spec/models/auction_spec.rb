@@ -37,6 +37,32 @@ describe Auction do
       auc = FactoryGirl.build(:auction)
       auc.should respond_to(:user)
     end
+
+    it "should be able to have bidders (user) associated" do
+      auc = FactoryGirl.build(:auction)
+      auc.should respond_to(:bidders)
+    end
+  end
+
+  it "should tell if a bid amount is invalid with respect to the current_price" do
+    auc = FactoryGirl.build(:auction)
+    bid_amount = auc.current_price - 20
+    auc.is_bid_amount_invalid?(bid_amount).should be_true
+  end
+
+  it "should tell if an auction is closed" do
+    auc = FactoryGirl.build(:auction, active: false)
+    auc.closed?.should be_true
+  end
+
+  it "should return the highest bid" do
+    auc = FactoryGirl.build(:auction_with_auctioner, current_price: 100)
+    bidder1 = FactoryGirl.create(:user, budget: 300)
+    bidder2 = FactoryGirl.create(:user, budget: 300)
+    bid_bidder1 = bidder1.bid(auc, auc.current_price+20)
+    bid_bidder2 = bidder2.bid(auc, auc.current_price+30)
+    expect(auc.highest_bid).to be_an_instance_of(Bid)
+    expect(auc.highest_bid).to eql(bid_bidder2)
   end
 
 end
