@@ -2,11 +2,18 @@
 <div class="media">
   <img src="http://www.gravatar.com/avatar/<%= md5(email) %>" class="pull-left img-polaroid"/>
   <div class="media-body">
-    <%= name %><br /><%= email %>
+    <%= name %> ($<%= budget %>)<br />
+    <%= email %><br />
+    <% if (window.Bidsystem.ActiveUser && window.Bidsystem.ActiveUser.id == id) { %>
+      <span class="badge badge-success">Current User</span>
+    <% } else { %>
+      <a href="#/users/<%= id %>/login" class="btn-small btn-success">Login</a>
+    <% } %>
   </div>
 </div>
 </td>
-<td>$<%= budget %></td>
 
-<td><a href="#/<%= id %>/edit" class="btn-small btn-info">Edit</td>
-<td><a href="#/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a></td>
+<td>
+  <a href="#/users/<%= id %>/edit" class="btn-small btn-primary">Edit</a>
+  <a href="#/users/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a>
+</td>

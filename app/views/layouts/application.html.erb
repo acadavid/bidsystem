@@ -67,7 +67,7 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
-        window.router = new Bidsystem.Routers.UsersRouter({users: <%= @users.to_json.html_safe -%>});
+        window.router = new Bidsystem.Routers.BidsystemRouter({users: <%= @users.to_json.html_safe -%>, auctions: <%= @auctions.to_json({methods: [:auctioner_name]}).html_safe -%>});
         Backbone.history.start();
       });
     </script>

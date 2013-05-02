@@ -1,0 +1,12 @@
+<td>
+<% if (active) { %>
+   <span class="label label-success">Active</span>
+<% } else { %>
+   <span class="label label-important">Finished</span>
+<% } %>
+<%= item_name %><br />
+<strong>Current price: </strong>$<%= current_price %><br />
+<strong>Auctioner: </strong><%= auctioner_name %>
+</td>
+
+<td><a href="#/auctions/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a></td>

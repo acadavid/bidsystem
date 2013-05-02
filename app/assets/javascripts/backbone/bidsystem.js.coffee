@@ -9,3 +9,4 @@ window.Bidsystem =
   Collections: {}
   Routers: {}
   Views: {}
+  ActiveUser: null

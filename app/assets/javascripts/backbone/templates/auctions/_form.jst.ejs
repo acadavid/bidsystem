@@ -1,0 +1,13 @@
+<% if (typeof(errors) != "undefined") { %>
+  <div class="alert alert-error"><%= errors %></div>
+<% } %>
+<label for="item_name">Item name:</label>
+<input type="text" name="item_name" id="item_name" value="<%= item_name %>" placeholder="Math Book" class="input-medium" required>
+<div class="input-prepend">
+  <span class="add-on">$</span>
+  <input type="text" name="current_price" id="current_price" value="<%= current_price %>" placeholder="10" class="input-mini" required>
+</div>
+<% if (window.Bidsystem.ActiveUser) { %>
+  <input type="hidden" name="user_id" value="<%= window.Bidsystem.ActiveUser.id %>">
+<% } %>
+<button type="submit" class="btn btn-primary">Save</button>

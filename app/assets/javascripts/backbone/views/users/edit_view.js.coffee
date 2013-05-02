@@ -15,7 +15,7 @@ class Bidsystem.Views.Users.EditView extends Backbone.View
     @model.save(null,
       success : (user) =>
         @model = user
-        window.location.hash = "#/index"
+        window.location.hash = ""
 
       error: (user, jqXHR) =>
         errors_json = $.parseJSON(jqXHR.responseText)
