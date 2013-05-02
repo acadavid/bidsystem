@@ -15,7 +15,7 @@ describe "/users" do
  }
 
   it "should create a user and return a success status" do
-    post "/users", params.to_query
+    post "/users", params
     last_response.status.should eql(201)
     user = User.last
 
@@ -25,7 +25,7 @@ describe "/users" do
   end
 
   it "should create a user with correct budget" do
-    post "/users", params.to_query
+    post "/users", params
     last_response.status.should eql(201)
     user = User.last
 
@@ -33,7 +33,7 @@ describe "/users" do
   end
 
   it "should return an error message if it can't be created" do
-    post "/users", invalid_params.to_query
+    post "/users", invalid_params
     last_response.status.should eql(422)
     response = JSON.parse(last_response.body)
 
