@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
+gem 'pg'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -25,6 +26,7 @@ group :development do
   gem 'better_errors'
   gem 'pry'
   gem 'bullet'
+  gem 'sqlite3'
 end
 
 group :test, :development do
@@ -33,7 +35,6 @@ group :test, :development do
   gem 'rack-test'
 end
 
-gem 'sqlite3'
 gem 'rabl', "~> 0.8"
 gem "twitter-bootstrap-rails"
 gem "rails-backbone"
