@@ -78,6 +78,13 @@ describe User do
       expect {bidder.bid(auction, amount) }.to raise_error(BidsystemExceptions::InvalidAmountError)
     end
 
+    it "should raise InvalidAmountError exception if amount is equals than current's auction price" do
+      auction = FactoryGirl.create(:auction_with_auctioner)
+      bidder = FactoryGirl.create(:user)
+      amount = auction.current_price
+      expect {bidder.bid(auction, amount) }.to raise_error(BidsystemExceptions::InvalidAmountError)
+    end
+
     it "should raise AuctionClosedError exception if the auction is already closed" do
       auction = FactoryGirl.create(:auction_with_auctioner, active: false)
       bidder = FactoryGirl.create(:user)

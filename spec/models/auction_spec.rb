@@ -86,10 +86,10 @@ describe Auction do
       auc = FactoryGirl.build(:auction_with_auctioner)
       auctioner_initial_budget = auc.user.budget
       bidder = FactoryGirl.create(:user, budget: 300)
-      bidder.bid(auc, 50)
+      bidder.bid(auc, 60)
       expect {
         auc.close!
-      }.to change { auc.user.budget }.from(auctioner_initial_budget).to(auctioner_initial_budget + 50)
+      }.to change { auc.user.budget }.from(auctioner_initial_budget).to(auctioner_initial_budget + 60)
     end
 
     it "should withdraw the money from a non-winning bidder and not deposit it to the auctioner" do
@@ -99,8 +99,8 @@ describe Auction do
       bidder1 = FactoryGirl.create(:user, budget: 300)
       bidder2 = FactoryGirl.create(:user, budget: 300)
       bid1_initial_budget = bidder1.budget
-      bidder1.bid(auc, 50)
-      bidder2.bid(auc, 60)
+      bidder1.bid(auc, 60)
+      bidder2.bid(auc, 70)
       auc.close!
       bidder1.budget.should eql(bid1_initial_budget)
       auctioner.budget.should eql(auctioner_initial_budget + auc.current_price)

@@ -15,7 +15,7 @@ class Auction < ActiveRecord::Base
   delegate :name, to: :winner, prefix: :winner, allow_nil: true
 
   def is_bid_amount_invalid?(amount)
-    current_price > amount
+    current_price >= amount
   end
 
   def closed?
