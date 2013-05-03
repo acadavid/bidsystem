@@ -18,6 +18,9 @@ class Bidsystem.Views.Auctions.NewView extends Backbone.View
     e.preventDefault()
     e.stopPropagation()
 
+    if (window.Bidsystem.ActiveUser)
+      @model.set({user_id: window.Bidsystem.ActiveUser.id})
+
     @model.unset("errors")
 
     @collection.create(@model.toJSON(),

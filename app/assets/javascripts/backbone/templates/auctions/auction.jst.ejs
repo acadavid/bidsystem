@@ -23,7 +23,7 @@
 <td>
 </td>
 <td>
-<% if (window.Bidsystem.ActiveUser && active) { %>
+<% if (window.Bidsystem.ActiveUser && active && window.Bidsystem.ActiveUser.id !== user_id) { %>
   <div class="input-prepend">
     <span class="add-on">$</span>
     <input type="text" name="amount" placeholder="amount" class="input-mini amount" style="padding-right:3px;" required>  
