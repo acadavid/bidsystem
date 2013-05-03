@@ -65,4 +65,46 @@ describe Auction do
     expect(auc.highest_bid).to eql(bid_bidder2)
   end
 
+  context "closing" do
+
+    it "should be able to close the auction" do
+      auc = FactoryGirl.build(:auction)
+      expect { auc.close! }.to change{ auc.active }.from(true).to(false)
+    end
+
+    it "should have the correct auction winner when closed" do
+      auc = FactoryGirl.build(:auction)
+      bidder1 = FactoryGirl.create(:user, budget: 300)
+      bidder2 = FactoryGirl.create(:user, budget: 300)
+      bidder1.bid(auc, auc.current_price+20)
+      bidder2.bid(auc, auc.current_price+20)
+      auc.close!
+      expect(auc.winner).to eql(bidder2)
+    end
+
+    it "should deposit the money to the auctioner" do
+      auc = FactoryGirl.build(:auction_with_auctioner)
+      auctioner_initial_budget = auc.user.budget
+      bidder = FactoryGirl.create(:user, budget: 300)
+      bidder.bid(auc, 50)
+      expect {
+        auc.close!
+      }.to change { auc.user.budget }.from(auctioner_initial_budget).to(auctioner_initial_budget + 50)
+    end
+
+    it "should withdraw the money from a non-winning bidder and not deposit it to the auctioner" do
+      auc = FactoryGirl.build(:auction_with_auctioner)
+      auctioner = auc.user
+      auctioner_initial_budget = auctioner.budget
+      bidder1 = FactoryGirl.create(:user, budget: 300)
+      bidder2 = FactoryGirl.create(:user, budget: 300)
+      bid1_initial_budget = bidder1.budget
+      bidder1.bid(auc, 50)
+      bidder2.bid(auc, 60)
+      auc.close!
+      bidder1.budget.should eql(bid1_initial_budget)
+      auctioner.budget.should eql(auctioner_initial_budget + auc.current_price)
+    end
+  end
+
 end

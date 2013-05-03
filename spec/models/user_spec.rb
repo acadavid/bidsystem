@@ -129,4 +129,73 @@ describe User do
       }.to change { bidder1.budget }.from(initial_budget - bid_amount).to(initial_budget)
     end
   end
+
+
+  context "budget operations" do
+    it "should return false if withdrawal can't be done" do
+      user = FactoryGirl.build(:user)
+      expect(user.withdrawal!(1000)).to be_false
+    end
+
+    it "should not withdraw money if user's budget is less than the amount to withdraw" do
+      user = FactoryGirl.build(:user)
+      initial_budget = user.budget
+      user.withdrawal!(1000)
+      expect(user.budget).to eq(initial_budget)
+    end
+
+    it "should correctly withdraw money when the budget allows it" do
+      user = FactoryGirl.build(:user)
+      initial_budget = user.budget
+      amount = 30
+      expect{
+        user.withdrawal!(amount)
+      }.to change{user.budget}.from(initial_budget).to(initial_budget - amount)
+    end
+
+    it "should return false if deposit can't be done" do
+      user = FactoryGirl.build(:user)
+      expect(user.deposit!(-30)).to be_false
+    end
+
+    it "should not modify its budget if a negative amount was deposited" do
+      user = FactoryGirl.build(:user)
+      initial_budget = user.budget
+      amount = -30
+      user.deposit!(amount)
+      expect(user.budget).to eq(initial_budget)
+    end
+
+    it "should be able to receive a deposit and update its budget" do
+      user = FactoryGirl.build(:user)
+      initial_budget = user.budget
+      amount = 30
+      expect{
+        user.deposit!(amount)
+      }.to change{user.budget}.from(initial_budget).to(initial_budget + amount)
+    end
+
+    it "should correctly block my budget after bids" do
+      user = FactoryGirl.create(:user, budget: 500)
+      auction = FactoryGirl.create(:auction_with_auctioner, current_price: 50)
+
+      expect{
+        user.bid(auction, 70)
+      }.to change {user.budget}.from(500).to(430)
+    end
+  end
+
+  context "won auctions" do
+    it "should list the won auctions" do
+      user = FactoryGirl.create(:user, budget: 300)
+      auc1 = FactoryGirl.build(:auction)
+      auc2 = FactoryGirl.build(:auction)
+      user.bid(auc1, auc1.current_price+20)
+      user.bid(auc2, auc2.current_price+30)
+      auc1.close!
+      auc2.close!
+      expect(user.won_auctions).to include(auc1, auc2)
+    end
+  end
+
 end

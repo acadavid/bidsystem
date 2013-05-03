@@ -6,6 +6,7 @@ class Bidsystem.Views.Auctions.AuctionView extends Backbone.View
   events:
     "click .destroy" : "destroy"
     "click .bid" : "bid"
+    "click .close-auction" : "close"
 
   tagName: "tr"
 
@@ -37,6 +38,19 @@ class Bidsystem.Views.Auctions.AuctionView extends Backbone.View
         errors_json = $.parseJSON(jqXHR.responseText)
         alert(errors_json.errors)
     )
+
+    return true
+
+  close: () ->
+    self = @
+    @model.set({active: false})
+    @model.save()
+    @model.fetch(
+      success: ->
+        self.render()
+    )
+
+    window.users.fetch(reset: true)
 
     return true
 

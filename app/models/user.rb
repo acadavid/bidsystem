@@ -39,4 +39,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def withdrawal!(amount)
+    return false if self.budget < amount
+    self[:budget] -= amount
+    save
+  end
+
+  def deposit!(amount)
+    return false if amount < 1
+    self[:budget] += amount
+    save
+  end
+
 end

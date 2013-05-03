@@ -46,3 +46,30 @@ describe "/auctions" do
   end
 
 end
+
+describe "closing bid" do
+  include Rack::Test::Methods
+
+  before(:each) do
+    @user = FactoryGirl.create(:user)
+    @auction = FactoryGirl.create(:auction_with_auctioner)
+  end
+
+  let(:params) {
+    {
+      auction: {
+        active: false
+      }
+    }
+  }
+
+
+  it "should close the auction and show the correct winner data" do
+    @user.bid(@auction, @auction.current_price+20)
+    put auction_path(@auction), params
+    last_response.status.should eql(204)
+    @auction.reload
+    expect(@auction.closed?).to be_true
+  end
+
+end

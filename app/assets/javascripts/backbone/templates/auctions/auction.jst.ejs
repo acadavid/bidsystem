@@ -4,13 +4,18 @@
 <td>
 <% if (active) { %>
    <span class="label label-success">Active</span>
+   <%= item_name %><br />
+   <strong>Auctioner: </strong><%= auctioner_name %><br />
+   <strong>Current price: </strong>$<%= current_price %><br />
 <% } else { %>
    <span class="label label-important">Finished</span>
+   <%= item_name %><br />
+   <strong>Final price: </strong>$<%= current_price %><br />
 <% } %>
-<%= item_name %><br />
-<strong>Auctioner: </strong><%= auctioner_name %><br />
-<strong>Current price: </strong>$<%= current_price %><br />
-<% if (winning_bidder_name) { %>
+
+<% if (winner_name) { %>
+  <strong>Auction winner: </strong><%= winning_bidder_name %><br />
+<% } else if (winning_bidder_name) { %>
   <strong>Current winner: </strong><%= winning_bidder_name %><br />
 <% } %>
 </td>
@@ -18,7 +23,7 @@
 <td>
 </td>
 <td>
-<% if (window.Bidsystem.ActiveUser) { %>
+<% if (window.Bidsystem.ActiveUser && active) { %>
   <div class="input-prepend">
     <span class="add-on">$</span>
     <input type="text" name="amount" placeholder="amount" class="input-mini amount" style="padding-right:3px;" required>  
@@ -27,4 +32,8 @@
 <% } %>
 
   <a href="#/auctions/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a>
+
+<% if (active) { %>
+  <a href="#/auctions/<%= id %>/close" class="btn-small btn-danger close-auction">Close!</a>
+<% } %>
 </td>

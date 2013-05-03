@@ -12,6 +12,7 @@ class Auction < ActiveRecord::Base
 
   delegate :name, to: :user, prefix: :auctioner
   delegate :name, to: :winning_bidder, prefix: :winning_bidder, allow_nil: true
+  delegate :name, to: :winner, prefix: :winner, allow_nil: true
 
   def is_bid_amount_invalid?(amount)
     current_price > amount
@@ -40,4 +41,19 @@ class Auction < ActiveRecord::Base
     end
   end
 
+  def winner
+    return nil if !self.closed? or self.highest_bid.nil?
+    highest_bid.user
+  end
+
+  def close!
+    self.transaction do
+      self.active = false
+      if self.winner.present? and self.user.present?
+        self.winner.withdrawal!(highest_bid.amount)
+        self.user.deposit!(highest_bid.amount)
+      end
+      save
+    end
+  end
 end
