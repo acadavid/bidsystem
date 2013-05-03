@@ -15,7 +15,7 @@ class AuctionsController < ApplicationController
     if @auction.save
       render json: @auction.to_json({methods: [:auctioner_name, :winning_bidder_name, :winner_name]}), status: :created
     else
-      render json: {errors: @auction.errors.full_messages.join(", ")}, status: :unprocessable_entity
+      render_object_errors(@auction)
     end
   end
 
@@ -30,7 +30,7 @@ class AuctionsController < ApplicationController
     if @auction.update_attributes(params[:auction])
       head :no_content
     else
-      render json: {errors: @auction.errors.full_messages.join(", ")}, status: :unprocessable_entity
+      render_object_errors(@auction)
     end
   end
 
@@ -47,7 +47,7 @@ class AuctionsController < ApplicationController
     if auction.close!
       head :no_content
     else
-      render json: {errors: auction.errors.full_messages.join(", ")}, status: :unprocessable_entity
+      render_object_errors(auction)
     end
   end
 

@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     if @user.save
       respond_with @user
     else
-      render json: {errors: @user.errors.full_messages.join(", ")}, status: :unprocessable_entity
+      render_object_errors(@user)
     end
   end
 
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       head :no_content
     else
-      render json: {errors: @user.errors.full_messages.join(", ")}, status: :unprocessable_entity
+      render_object_errors(@user)
     end
   end
 
