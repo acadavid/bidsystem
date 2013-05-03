@@ -21,19 +21,18 @@
 </td>
 
 <td>
-</td>
-<td>
 <% if (window.Bidsystem.ActiveUser && active && window.Bidsystem.ActiveUser.id !== user_id) { %>
   <div class="input-prepend">
     <span class="add-on">$</span>
-    <input type="text" name="amount" placeholder="amount" class="input-mini amount" style="padding-right:3px;" required>  
-    <a href="#/auctions/<%= id %>/bid" class="btn btn-primary bid">Bid!</a>
+    <input type="text" name="amount" placeholder="amount" class="input-mini amount" required>  
   </div>
+    <a href="#/auctions/<%= id %>/bid" class="btn btn-primary bid">Bid!</a>
 <% } %>
-
-  <a href="#/auctions/<%= id %>/destroy" class="btn-small btn-danger destroy">Delete</a>
 
 <% if (active) { %>
-  <a href="#/auctions/<%= id %>/close" class="btn-small btn-danger close-auction">Close!</a>
+  <a href="#/auctions/<%= id %>/close" class="btn btn-inverse close-auction">Close!</a>
 <% } %>
+
+  <a href="#/auctions/<%= id %>/destroy" class="btn btn-danger destroy">Delete</a>
+
 </td>
